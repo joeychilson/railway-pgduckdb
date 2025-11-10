@@ -10,6 +10,9 @@ cat > /tmp/pg_duckdb_config.sql <<EOF
 CREATE EXTENSION IF NOT EXISTS pg_duckdb;
 
 ALTER DATABASE $PGDATABASE SET duckdb.force_execution = true;
+
+SET duckdb.motherduck_enabled = false;
+ALTER DATABASE $PGDATABASE SET duckdb.motherduck_enabled = false;
 EOF
 
 if [ -n "$S3_ACCESS_KEY_ID" ] && [ -n "$S3_SECRET_ACCESS_KEY" ] && [ -n "$S3_REGION" ]; then
@@ -50,24 +53,6 @@ else
   echo "S3 credentials not provided. Skipping S3 secret creation."
 fi
 
-if [ -n "$MOTHERDUCK_TOKEN" ]; then
-  echo "Configuring MotherDuck integration..."
-
-  cat >> /tmp/pg_duckdb_config.sql <<EOF
-
-CALL duckdb.enable_motherduck('$MOTHERDUCK_TOKEN');
-EOF
-
-  echo "MotherDuck configuration added."
-else
-  echo "No MotherDuck token provided. Disabling MotherDuck extension..."
-
-  cat >> /tmp/pg_duckdb_config.sql <<EOF
-
-ALTER DATABASE $PGDATABASE SET duckdb.motherduck_enabled = false;
-EOF
-fi
-
 if [ -n "$DUCKDB_EXTENSIONS" ]; then
   echo "Installing DuckDB extensions: $DUCKDB_EXTENSIONS"
 
@@ -84,7 +69,7 @@ EOF
 fi
 
 echo "Applying pg_duckdb configuration..."
-# Use Unix socket for local connection during init
+
 psql -v ON_ERROR_STOP=1 -h /var/run/postgresql -f /tmp/pg_duckdb_config.sql
 
 echo "pg_duckdb configuration completed successfully!"
