@@ -2,7 +2,7 @@
 
 A Docker container for easily deploying a pg_duck enabled Postgres database on Railway.
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/UTJLi1?referralCode=NhCCIt&utm_medium=integration&utm_source=template&utm_campaign=generic)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/postgresql-with-pg-1?referralCode=NhCCIt&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
 ## Documentation
 
