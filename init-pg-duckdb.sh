@@ -32,7 +32,7 @@ SELECT duckdb.create_simple_secret(
 
   if [ -n "$S3_ENDPOINT" ]; then
     S3_SQL="$S3_SQL,
-    endpoint := '$S3_ENDPOINT'"
+    endpoint := '${S3_ENDPOINT#https://}'"
   fi
 
   if [ -n "$S3_URL_STYLE" ]; then
