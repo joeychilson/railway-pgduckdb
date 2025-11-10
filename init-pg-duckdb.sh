@@ -59,6 +59,13 @@ CALL duckdb.enable_motherduck('$MOTHERDUCK_TOKEN');
 EOF
 
   echo "MotherDuck configuration added."
+else
+  echo "No MotherDuck token provided. Disabling MotherDuck extension..."
+
+  cat >> /tmp/pg_duckdb_config.sql <<EOF
+
+ALTER DATABASE $PGDATABASE SET duckdb.motherduck_enabled = false;
+EOF
 fi
 
 if [ -n "$DUCKDB_EXTENSIONS" ]; then
