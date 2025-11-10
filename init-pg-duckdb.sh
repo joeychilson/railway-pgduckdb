@@ -38,6 +38,9 @@ SELECT duckdb.create_simple_secret(
   if [ -n "$S3_URL_STYLE" ]; then
     S3_SQL="$S3_SQL,
     url_style := '$S3_URL_STYLE'"
+  else
+    S3_SQL="$S3_SQL,
+    url_style := 'path'"
   fi
 
   S3_SQL="$S3_SQL
